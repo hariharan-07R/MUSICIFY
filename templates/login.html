@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MUSICIFY</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-body">
+
+    <div class="auth-card">
+        <a href="/" class="logo">MUSICIFY<span>.</span></a>
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Your music. Your world. Your vibe.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="{{ url_for('login_user') }}" method="POST">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+
+            <label>Password</label>
+            <div class="password-wrap">
+                <input type="password" name="password" id="loginPassword"
+                       placeholder="Enter your password" required>
+                <button type="button" class="show-btn"
+                        onclick="togglePassword('loginPassword', this)">SHOW</button>
+            </div>
+
+            <button type="submit" class="main-btn">LOG IN</button>
+        </form>
+
+        <p class="bottom-text">
+            Don't have an account?
+            <a href="{{ url_for('register') }}">Create Account</a>
+        </p>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

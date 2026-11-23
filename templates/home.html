@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUSICIFY | Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="home-body">
+
+<header class="topbar">
+    <a href="/home" class="logo">MUSICIFY<span>.</span></a>
+
+    <nav>
+        <a href="#discover">Discover</a>
+        <a href="#languages">Languages</a>
+        <a href="#player">Player</a>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </nav>
+</header>
+
+<div class="home-container">
+
+    <section class="hero">
+        <p class="eyebrow">YOUR SOUND. YOUR WORLD.</p>
+        <h1>Welcome, {{ user_name }}.</h1>
+        <p>Find your rhythm. Feel every moment.</p>
+
+        <input type="search" id="songSearch"
+               placeholder="Search songs, artists or albums...">
+    </section>
+
+    <section id="discover">
+        <h2>Discover Your Vibe</h2>
+        <p class="section-subtitle">Explore music that matches your mood.</p>
+
+        <div class="music-grid">
+
+            <article class="music-card" data-search="tamil kollywood">
+                <div class="music-art art-one">தமிழ்</div>
+                <h3>Tamil Hits</h3>
+                <p>Kollywood favourites</p>
+            </article>
+
+            <article class="music-card" data-search="english pop">
+                <div class="music-art art-two">POP</div>
+                <h3>English Hits</h3>
+                <p>Global favourites</p>
+            </article>
+
+            <article class="music-card" data-search="hindi bollywood">
+                <div class="music-art art-three">हिंदी</div>
+                <h3>Hindi Hits</h3>
+                <p>Bollywood favourites</p>
+            </article>
+
+        </div>
+
+        <p id="searchMessage" class="section-subtitle"></p>
+    </section>
+
+    <section id="languages" class="language-section">
+        <h2>Music Without Borders</h2>
+
+        <div class="language-list">
+            <span>Tamil</span>
+            <span>English</span>
+            <span>Hindi</span>
+        </div>
+    </section>
+
+    <!-- MUSIC PLAYER -->
+
+    <section id="player" class="music-player">
+
+        <p class="eyebrow">NOW PLAYING</p>
+
+        <div class="player-art">
+            <span>♫</span>
+        </div>
+
+        <div class="player-info">
+            <h2 id="songTitle">My First Song</h2>
+            <p id="artistName">MUSICIFY Artist</p>
+        </div>
+
+        <audio id="audioPlayer"
+               src="{{ url_for('static', filename='music/song.mp3') }}">
+        </audio>
+
+        <div class="player-controls">
+            <button onclick="previousSong()">⏮</button>
+            <button onclick="togglePlay()" id="playButton">▶</button>
+            <button onclick="nextSong()">⏭</button>
+        </div>
+
+        <div class="progress-container">
+            <input type="range" id="progressBar"
+                   value="0" min="0" max="100">
+        </div>
+
+        <div class="volume-control">
+            <span>🔊</span>
+            <input type="range" id="volumeBar"
+                   min="0" max="1" step="0.01" value="0.7">
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 MUSICIFY. Made for music lovers.</p>
+    </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
