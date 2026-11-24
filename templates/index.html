@@ -1,430 +1,228 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUSICIFY</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>MUSICIFY | Your Music Universe</title>
 
-        body {
-            background: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 25px;
-            padding-bottom: 280px;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 35px;
-        }
-
-        .logo {
-            color: #1ed760;
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        .songs-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-            gap: 22px;
-            margin-top: 25px;
-        }
-
-        .song-card {
-            background: #222;
-            padding: 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .song-card:hover {
-            background: #333;
-            transform: translateY(-4px);
-        }
-
-        .song-card.active {
-            border: 2px solid #1ed760;
-        }
-
-        .cover {
-            height: 160px;
-            background: linear-gradient(135deg, #1ed760, #14532d);
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 65px;
-            margin-bottom: 15px;
-        }
-
-        .song-card h3 {
-            font-size: 16px;
-            overflow-wrap: anywhere;
-        }
-
-        .play-hint {
-            color: #aaa;
-            font-size: 13px;
-            margin-top: 10px;
-        }
-
-        /* BIG MUSIC PLAYER */
-
-        .player {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #202020;
-            border-top: 1px solid #444;
-            padding: 20px 30px;
-            z-index: 10;
-        }
-
-        .player-content {
-            max-width: 950px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .big-cover {
-            width: 110px;
-            height: 110px;
-            min-width: 110px;
-            background: linear-gradient(135deg, #1ed760, #14532d);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-        }
-
-        .player-details {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .player-details h2 {
-            margin-bottom: 8px;
-            overflow-wrap: anywhere;
-        }
-
-        .player-details p {
-            color: #aaa;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-
-        .controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 15px;
-        }
-
-        .controls button {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 25px;
-            cursor: pointer;
-        }
-
-        .controls .main-play {
-            background: #1ed760;
-            color: black;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 20px;
-        }
-
-        .progress-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .progress-area span {
-            font-size: 12px;
-            color: #bbb;
-            min-width: 38px;
-        }
-
-        input[type="range"] {
-            flex: 1;
-            cursor: pointer;
-            accent-color: #1ed760;
-        }
-
-        @media(max-width: 600px) {
-            body {
-                padding: 15px;
-                padding-bottom: 260px;
-            }
-
-            .player {
-                padding: 15px;
-            }
-
-            .player-content {
-                gap: 12px;
-            }
-
-            .big-cover {
-                width: 65px;
-                height: 65px;
-                min-width: 65px;
-                font-size: 30px;
-            }
-
-            .player-details h2 {
-                font-size: 16px;
-            }
-        }
-    </style>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="home-body">
 
-<header>
-    <div class="logo">🎵 MUSICIFY</div>
-    <div>Tamil Music World</div>
-</header>
+    <!-- NAVIGATION -->
+    <header class="topbar">
 
-<h2>Made for Music Lovers ❤️</h2>
+        <a href="{{ url_for('home') }}" class="logo">
+            MUSIC<span>IFY</span>
+        </a>
 
-<h2 style="margin-top:30px;">🎧 Your Tamil Songs</h2>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#library">My Music</a>
+            <a href="#languages">Languages</a>
+            <a href="#player">Player</a>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Logout
+            </a>
+        </nav>
 
-<div class="songs-container">
+    </header>
 
-    {% for song in songs %}
 
-    <div class="song-card"
-         data-name="{{ song.name }}"
-         data-src="{{ url_for('static', filename='music/songs/' + song.file) }}">
+    <main class="home-container">
 
-        <div class="cover">🎵</div>
+        <!-- HERO -->
+        <section class="hero" id="home">
 
-        <h3>{{ song.name }}</h3>
-        <p class="play-hint">▶ Click to play</p>
+            <p class="eyebrow">YOUR SOUND. YOUR WORLD.</p>
 
-    </div>
+            <h1>Feel Every Beat.</h1>
 
-    {% else %}
+            <p>
+                Welcome, {{ username }}.
+                Discover and enjoy your favourite music.
+            </p>
 
-    <p>No songs found!</p>
+            <input
+                type="search"
+                id="songSearch"
+                placeholder="Search your favourite songs..."
+                autocomplete="off"
+            >
 
-    {% endfor %}
+            <p id="searchMessage" class="player-message"></p>
 
-</div>
+        </section>
 
-<!-- BIG PLAYER -->
 
-<div class="player">
+        <!-- MUSIC LIBRARY -->
+        <section id="library">
 
-    <div class="player-content">
+            <h2>Your Music Library</h2>
 
-        <div class="big-cover">🎵</div>
+            <p class="section-subtitle">
+                All your available songs in one place.
+            </p>
 
-        <div class="player-details">
+            <div class="music-grid" id="musicGrid">
 
-            <h2 id="songTitle">Select a song</h2>
-            <p id="songStatus">MUSICIFY Tamil Music</p>
+                {% if not songs %}
+                    <p class="empty-message">
+                        No songs found. Add MP3 files to
+                        static/music/songs/.
+                    </p>
+                {% endif %}
 
-            <div class="controls">
+                {% for song in songs %}
 
-                <button id="previousBtn" title="Previous">⏮</button>
+                    <article
+                        class="music-card"
+                        data-song-index="{{ loop.index0 }}"
+                        data-search="{{ song.name }}"
+                    >
 
-                <button class="main-play" id="playBtn" title="Play">
+                        <div class="music-art art-one">
+                            ♫
+                        </div>
+
+                        <h3>{{ song.name }}</h3>
+
+                        <p>MUSICIFY</p>
+
+                    </article>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- LANGUAGES -->
+        <section class="language-section" id="languages">
+
+            <h2>Explore Languages</h2>
+
+            <p class="section-subtitle">
+                Music has no boundaries.
+            </p>
+
+            <div class="language-list">
+                <span>Tamil</span>
+                <span>English</span>
+                <span>Hindi</span>
+                <span>Telugu</span>
+                <span>Malayalam</span>
+                <span>Kannada</span>
+            </div>
+
+        </section>
+
+
+        <!-- MUSIC PLAYER -->
+        <section class="music-player" id="player">
+
+            <p class="eyebrow">NOW PLAYING</p>
+
+            <div class="player-art">
+                <span>♫</span>
+            </div>
+
+            <div class="player-info">
+
+                <h2 id="songTitle">Select a Song</h2>
+
+                <p id="artistName">MUSICIFY</p>
+
+            </div>
+
+
+            <!-- CONTROLS -->
+            <div class="player-controls">
+
+                <button id="previousButton" title="Previous">
+                    ⏮
+                </button>
+
+                <button id="playButton" title="Play or Pause">
                     ▶
                 </button>
 
-                <button id="nextBtn" title="Next">⏭</button>
+                <button id="nextButton" title="Next">
+                    ⏭
+                </button>
 
             </div>
 
-            <div class="progress-area">
 
-                <span id="currentTime">00:00</span>
+            <!-- PROGRESS -->
+            <div class="progress-container">
 
-                <input type="range"
-                       id="seekBar"
-                       min="0"
-                       max="100"
-                       value="0"
-                       step="0.1">
+                <input
+                    type="range"
+                    id="progressBar"
+                    min="0"
+                    max="100"
+                    value="0"
+                >
 
-                <span id="duration">00:00</span>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- VOLUME -->
+            <div class="volume-control">
 
-</div>
+                <span>🔊</span>
 
-<audio id="audioPlayer" preload="metadata"></audio>
+                <input
+                    type="range"
+                    id="volumeBar"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.7"
+                >
 
-<script>
+            </div>
 
-    const audio = document.getElementById("audioPlayer");
-    const playBtn = document.getElementById("playBtn");
-    const seekBar = document.getElementById("seekBar");
+            <p id="playerMessage" class="player-message"></p>
 
-    const songTitle = document.getElementById("songTitle");
-    const songStatus = document.getElementById("songStatus");
+        </section>
 
-    const currentTimeText = document.getElementById("currentTime");
-    const durationText = document.getElementById("duration");
+    </main>
 
-    const cards = Array.from(document.querySelectorAll(".song-card"));
 
-    let currentIndex = -1;
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 MUSICIFY. Made for music lovers.</p>
+    </footer>
 
-    function formatTime(seconds) {
-        if (!Number.isFinite(seconds)) return "00:00";
 
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
+    <!-- AUDIO -->
+    <audio id="audioPlayer" preload="metadata"></audio>
 
-        return String(mins).padStart(2, "0") + ":" +
-               String(secs).padStart(2, "0");
-    }
 
-    function selectSong(index, autoplay = true) {
+    <!-- SONG DATA FROM FLASK -->
+    <script>
+        window.MUSICIFY_SONGS = {{ songs | tojson }};
+    </script>
 
-        if (index < 0 || index >= cards.length) return;
 
-        currentIndex = index;
-
-        const card = cards[index];
-
-        audio.src = card.dataset.src;
-        audio.load();
-
-        songTitle.textContent = card.dataset.name;
-        songStatus.textContent = "Tamil Music 🎵";
-
-        cards.forEach(c => c.classList.remove("active"));
-        card.classList.add("active");
-
-        seekBar.value = 0;
-        currentTimeText.textContent = "00:00";
-        durationText.textContent = "Loading...";
-
-        if (autoplay) {
-            audio.play()
-                .then(() => {
-                    playBtn.textContent = "Ⅱ";
-                })
-                .catch(() => {
-                    playBtn.textContent = "▶";
-                    songStatus.textContent = "Press play to start";
-                });
-        } else {
-            playBtn.textContent = "▶";
-        }
-    }
-
-    playBtn.addEventListener("click", () => {
-
-        if (currentIndex === -1 && cards.length > 0) {
-            selectSong(0);
-            return;
-        }
-
-        if (audio.paused) {
-            audio.play();
-        } else {
-            audio.pause();
-        }
-    });
-
-    audio.addEventListener("play", () => {
-        playBtn.textContent = "Ⅱ";
-    });
-
-    audio.addEventListener("pause", () => {
-        playBtn.textContent = "▶";
-    });
-
-    audio.addEventListener("loadedmetadata", () => {
-
-        seekBar.max = audio.duration;
-        seekBar.value = 0;
-
-        durationText.textContent = formatTime(audio.duration);
-
-    });
-
-    audio.addEventListener("timeupdate", () => {
-
-        seekBar.value = audio.currentTime;
-
-        currentTimeText.textContent =
-            formatTime(audio.currentTime);
-
-    });
-
-    seekBar.addEventListener("input", () => {
-
-        audio.currentTime = Number(seekBar.value);
-
-    });
-
-    cards.forEach((card, index) => {
-
-        card.addEventListener("click", () => {
-            selectSong(index);
-        });
-
-    });
-
-    document.getElementById("nextBtn").addEventListener("click", () => {
-
-        if (cards.length > 0) {
-            selectSong((currentIndex + 1) % cards.length);
-        }
-
-    });
-
-    document.getElementById("previousBtn").addEventListener("click", () => {
-
-        if (cards.length > 0) {
-            const previousIndex =
-                currentIndex <= 0 ? cards.length - 1 : currentIndex - 1;
-
-            selectSong(previousIndex);
-        }
-
-    });
-
-    audio.addEventListener("ended", () => {
-
-        if (cards.length > 0) {
-            selectSong((currentIndex + 1) % cards.length);
-        }
-
-    });
-
-</script>
+    <!-- JAVASCRIPT -->
+    <script
+        src="{{ url_for('static', filename='js/script.js') }}"
+        defer>
+    </script>
 
 </body>
 </html>
